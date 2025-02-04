@@ -7,22 +7,24 @@ const app = express(); // Initialize app first
 // Middleware
 app.use(express.json()); // Allows JSON parsing
 
-// CORS Setup
+// CORS Setup (Allow all origins for development; restrict in production)
 const allowedOrigins = [
-    "https://travel-planner-frontend-rouge.vercel.app/" // Replace with your actual Vercel frontend URL
+    "https://travel-planner-frontend-rouge.vercel.app", // Vercel frontend URL (without trailing slash)
+    "http://localhost:3000" // Local development for frontend (if applicable)
 ];
 
 const corsOptions = {
-    origin: allowedOrigins,
-    methods: "GET,POST,PUT,DELETE",
-    allowedHeaders: "Content-Type,Authorization",
-    credentials: true,
+    origin: allowedOrigins, // Allow only these origins
+    methods: "GET,POST,PUT,DELETE", // Allow these HTTP methods
+    allowedHeaders: "Content-Type,Authorization", // Allow these headers
+    credentials: true, // Allow cookies and authorization headers
 };
 
-app.use(cors(corsOptions)); // Apply CORS middleware after initializing `app`
+// Apply CORS middleware after initializing `app`
+app.use(cors(corsOptions));
 
-// Connect to MongoDB Atlas
-const mongoURI = "mongodb+srv://sujith_k:sujithk@cluster0.rxocj.mongodb.net/travelPlanner?retryWrites=true&w=majority&appName=Cluster0"; // Replace <username> and <password>
+// Connect to MongoDB Atlas (Replace with your actual credentials)
+const mongoURI = "mongodb+srv://sujith_k:sujithk@cluster0.rxocj.mongodb.net/travelPlanner?retryWrites=true&w=majority&appName=Cluster0"; 
 mongoose
     .connect(mongoURI)
     .then(() => console.log("MongoDB connected successfully"))
