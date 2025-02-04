@@ -4,25 +4,11 @@ const cors = require("cors");
 
 const app = express(); // Initialize Express app
 
-// ✅ Middleware (allows parsing JSON)
+// ✅ Middleware
 app.use(express.json());
+app.use(cors()); // 🔥 FIX CORS FULLY
 
-// ✅ Fix CORS (Allow Frontend on Vercel)
-const allowedOrigins = [
-    "https://travel-planner-frontend-rouge.vercel.app",  // 🚀 Your actual Vercel frontend URL
-    "http://localhost:3000"  // ✅ Allow local development
-];
-
-const corsOptions = {
-    origin: allowedOrigins,
-    methods: "GET,POST,PUT,DELETE",
-    allowedHeaders: "Content-Type,Authorization",
-    credentials: true,
-};
-
-app.use(cors(corsOptions));  // Apply CORS Fix
-
-// ✅ Connect to MongoDB Atlas (Use your real MongoDB URL)
+// ✅ Connect to MongoDB Atlas
 const mongoURI = "mongodb+srv://sujith_k:sujithk@cluster0.rxocj.mongodb.net/travelPlanner?retryWrites=true&w=majority&appName=Cluster0"; 
 mongoose
     .connect(mongoURI)
@@ -52,7 +38,7 @@ app.post("/plan-trip", (req, res) => {
     res.json({ message: "✅ Trip planned successfully!", destination, dates });
 });
 
-// ✅ Test Route (Check if Backend Works)
+// ✅ Default Route (To check if backend works)
 app.get("/", (req, res) => {
     res.send("🎉 Backend is running...");
 });
